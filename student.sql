@@ -87,68 +87,68 @@ INSERT INTO ketQua (mssv, maHP, diem) VALUES
 ('B1345680', 'TN101', 7),
 ('B1345680', 'XH023', 7);
 
--- Cau 1
+-- 1
 select mssv, hoTen, gioiTinh, noiSinh
 from sinhVien
 order by mssv asc;
 
--- Cau 2
+-- 2
 select mssv, hoTen, ngaySinh, maKhoa
 from sinhVien
 where hoTen not like 'L%' and hoTen not like 'T%';
 
--- Cau 3
+-- 3
 select mssv, hoTen, year(curdate())-year(ngaySinh) as tuoi
 from sinhVien
 where year(curdate())-year(ngaySinh) between 20 and 22;
 
--- Cau 4
+-- 4
 select maHP, tenHP
 from hocPhan
 where soTinChi = 3 and soTietLT >= 45;
 
--- Cau 5
+-- 5
 select mssv, hoTen, gioiTinh
 from sinhVien
 where gioiTinh = 'M' and maKhoa = 'CNTT&TT';
 
--- Cau 6
+-- 6
 select maHP, tenHP
 from hocPhan
 where maHP not in (select distinct maHP from ketQua);
 
--- Cau 7
+-- 7
 select sinhVien.mssv, hoTen, maHP, diem
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
 where diem < 5;
 
--- Cau 8
+-- 8
 select sinhVien.mssv, hoTen
 from sinhVien
 join ketQua k1 on sinhVien.mssv = k1.mssv and k1.maHP = 'CT101'
 join ketQua k2 on sinhVien.mssv = k2.mssv and k2.maHP = 'CT176';
 
--- Cau 9
+-- 9
 select sinhVien.mssv, hoTen, maKhoa, diem
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
 order by sinhVien.maKhoa asc, hoTen asc;
 
--- Cau 10
+-- 10
 select hoTen, maHP
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
 where ketQua.maHP = 'CT101' and diem between 5 and 7;
 
--- Cau 11
+-- 11
 select hocPhan.maHP , hoTen
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
 join hocPhan on hocPhan.maHP = ketQua.maHP
 where soTietTH = 0;
 
--- Cau 12
+-- 12
 select hocPhan.maHP, tenHP
 from hocPhan
 join ketQua on hocPhan.maHP = ketQua.maHP
@@ -156,19 +156,19 @@ group by hocPhan.maHP, tenHP
 order by count(ketQua.mssv) desc
 limit 1;
 
--- Cau 13
+-- 13
 select hocPhan.maHP, count(mssv) as diem_duoi_5
 from hocPhan
 left join ketQua on hocPhan.maHP = ketQua.maHP and diem < 5
 group by hocPhan.maHP;
 
--- Cau 14
+-- 14
 select khoa.maKhoa, tenKhoa, count(mssv) as sv_trong_khoa
 from khoa
 left join sinhVien on khoa.maKhoa = sinhVien.maKhoa
 group by khoa.maKhoa, tenKhoa;
 
--- Cau 15
+-- 15
 select sinhVien.mssv, hoTen
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
@@ -176,7 +176,7 @@ group by sinhVien.mssv, hoTen
 order by avg(ketQua.diem) desc
 limit 1;
 
--- Cau 16
+-- 16
 select khoa.maKhoa, khoa.tenKhoa,
        (select count(*) 
         from sinhVien 
@@ -186,14 +186,14 @@ select khoa.maKhoa, khoa.tenKhoa,
         where sinhVien.maKhoa = khoa.maKhoa and sinhVien.gioiTinh = 'F') as soNu
 from khoa;
 
--- Cau 17
+-- 17
 select sinhVien.mssv, hoTen, maKhoa
 from sinhVien
 where sinhVien.mssv not in (select ketQua.mssv
 							from ketQua
                             where maHP = 'XH023');
                             
--- Cau 18
+-- 18
 select sinhVien.mssv, hoTen
 from sinhVien
 join ketQua on sinhVien.mssv = ketQua.mssv
@@ -201,9 +201,9 @@ where ketQua.maHP = 'XH023'
 order by diem desc
 limit 1;
 
--- Cau 19
+-- 19
 alter table ketQua
 add constraint gioiHanDiem check (diem >= 0 and diem <= 10);
--- Cau 20
+-- 20
 alter table sinhVien
 add constraint dieuKienchoMSSV check (mssv regexp '^[A-Z][0-9]+$');
